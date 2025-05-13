@@ -1,0 +1,15 @@
+Option Explicit
+
+Dim fso, folder, file, shell, currentDir
+Set fso = CreateObject("Scripting.FileSystemObject")
+Set shell = CreateObject("WScript.Shell")
+
+currentDir = fso.GetParentFolderName(WScript.ScriptFullName)
+Set folder = fso.GetFolder(currentDir)
+
+For Each file In folder.Files
+    If LCase(fso.GetExtensionName(file.Name)) = "ps1" Then
+        ' Run PowerShell hidden
+        shell.Run "powershell -WindowStyle Hidden -ExecutionPolicy Bypass -File """ & file.Path & """", 0, False
+    End If
+Next
