@@ -1,0 +1,265 @@
+#f1 عمل فئة وكائنتها
+class Vehicle:
+    def __init__(self, color, price, consumption):
+        self.color = color
+        self.price = price
+        self.consumption = consumption
+        self.speed = 0
+
+    def set_speed(self, speed=0):
+        self.speed = speed
+        return self.speed
+
+    def accelerate(self, amount):
+        self.speed += amount
+        return self.speed
+
+    def decelerate(self, amount):
+        self.speed -= amount
+        return self.speed
+
+car1 = Vehicle("yellow", 1500.00, 12)
+print("Speed before accelerate is:", car1.speed)
+car1.set_speed(50)
+print("Speed after setting acceleration is:", car1.speed)
+car1.accelerate(10)
+print("Speed after 1st acceleration is:", car1.speed)
+car1.accelerate(5)
+print("Speed after 2nd acceleration is:", car1.speed)
+
+#f2 فئة وظائف
+class Dog:
+    no_instances = 0
+
+    def __init__(self, breed, color):
+        self.name = "Rodger"
+        self.breed = breed
+        self.color = color
+        Dog.no_instances += 1
+
+    @staticmethod
+    def think():
+        print(" I am Thinking!")
+
+    def eat(self, food):
+        print(self.name, "is eating", food)
+
+    @classmethod
+    def get_no_instances(cls):
+        return cls.no_instances
+
+Rodger = Dog("Pug", "brown")
+Rocky = Dog("bulldog", "white")
+print(Dog.get_no_instances())
+
+#f3 الوراثة
+class Person:
+    def __init__(self, name, ID_number):
+        self.name = name
+        self.ID_number = ID_number
+        self.email = name + "." + "@company.com"
+
+    def display(self):
+        print(self.name)
+        print(self.ID_number)
+        print(self.email)
+
+class Employee(Person):
+    def __init__(self, name, ID_number, salary):
+        super().__init__(name, ID_number)
+        self.salary = salary
+
+emp1 = Employee("Khaled", 123456, 15000)
+emp1.display()
+
+#f4 التجريد كائن
+from abc import ABC
+
+class Employee(ABC):
+    def calculate_salary(self, monthly_salary):
+        pass
+
+    def daysofwork(self, months_worked):
+        working_days = 21 * months_worked
+        return working_days
+
+class Designer(Employee):
+    def calculate_salary(self, monthly_salary):
+        return monthly_salary
+
+class Developer(Employee):
+    def calculate_salary(self, monthly_salary):
+        return monthly_salary * 1.10
+
+
+emp_1 = Designer()
+print("The Designer worked for", emp_1.daysofwork(2), "days.")
+print("His salary is", emp_1.calculate_salary(7000 * 2))
+
+emp_2 = Developer()
+print("The Developer worked for", emp_2.daysofwork(2), "days.")
+print("His salary is", emp_2.calculate_salary(8000 * 2))
+
+#f5 تعدد الاشكال
+class Animal:
+    def intro(self):
+        print("There are different types of animals")
+
+    def flight(self):
+        print("Many animals can fly but some cannot")
+
+class Bird(Animal):
+    def flight(self):
+        print("Birds can fly")
+
+class Mammal(Animal):
+    def flight(self):
+        print("The only mammal that can fly is the bat")
+
+
+obj1 = Animal()
+obj1.intro()
+obj1.flight()
+
+obj2 = Bird()
+obj2.flight()
+
+obj3 = Mammal()
+obj3.flight()
+
+#f6 الفرز الفقاعي
+myList = [20, 43, 28, 15, 31, 4]
+print("Initial list:", myList)
+
+N = len(myList)
+for i in range(N):
+    for j in range(N - 1):
+        if myList[j] > myList[j + 1]:
+            temp = myList[j]
+            myList[j] = myList[j + 1]
+            myList[j + 1] = temp
+
+print("Sorted list:", myList)
+
+#f7 التحتيد الفرز
+myList = [20, 43, 28, 15, 31, 4]
+print("Initial list:", myList)
+
+N = len(myList)
+for i in range(N):
+    
+    min_pos = i
+    for j in range(i + 1, N):
+        if myList[min_pos] > myList[j]:
+            min_pos = j
+
+    
+    myList[i], myList[min_pos] = myList[min_pos], myList[i]
+
+print("Sorted list:", myList)
+
+#f8 الادراج الفرز
+myList = [20, 43, 28, 15, 31, 4]
+print("Initial list:", myList)
+
+N = len(myList)
+for i in range(1, N):
+    key = myList[i]
+    j = i - 1
+    while j >= 0 and key < myList[j]:
+        myList[j + 1] = myList[j]
+        j = j - 1
+
+    myList[j + 1] = key
+
+print("Sorted list:", myList)
+
+#f9 الخطي البحث
+myList = [21, 13, 8, 5, 3, 2]
+key = int(input("Enter a number to search for: "))
+N = len(myList)
+found = False
+i = 0
+
+while i < N and found == False:
+    if myList[i] == key:
+        found = True
+        pos = i
+    else:
+        i = i + 1
+
+if found == True:
+    print("We found the number in index:", pos)
+else:
+    print("The number doesn't exist in this list")
+
+#f10 الثانئي البحث
+myList = [2, 3, 5, 8, 13, 21, 32, 47, 56, 62]
+key = int(input("Enter a number to search for: "))
+N = len(myList)
+
+first = 0
+last = N - 1
+found = False
+
+while first <= last and not found:
+    mid = (first + last) // 2
+    if myList[mid] == key:
+        found = True
+        pos = mid
+    elif key < myList[mid]:
+        last = mid - 1
+    else:
+        first = mid + 1
+
+if found:
+    print("The item is found in index", pos)
+else:
+    print("This item doesn't exist in this list")
+
+#f11 bfs
+graph = {
+    "A": ["B", "C"],
+    "B": ["D", "E"],
+    "C": ["F"],
+    "D": [],
+    "E": [],
+    "F": []
+}
+
+visitedBFS = []
+queue = []
+
+def bfs(visited, graph, node):
+    visited.append(node)
+    queue.append(node)
+    while queue:
+        n = queue.pop(0)
+        print(n, end=" ")
+
+        for neighbour in graph[n]:
+            if neighbour not in visited:
+                visited.append(neighbour)
+                queue.append(neighbour)
+
+bfs(visitedBFS, graph, "A")
+
+#f12 dfs
+graph = {
+    "A": ["B", "C"],
+    "B": ["D", "E"],
+    "C": ["F"],
+    "D": [],
+    "E": [],
+    "F": []
+}
+visitedDFS = set()
+
+def dfs(visited, graph, node):
+    if node not in visited:
+        print(node, end=" ")
+        visited.add(node)
+        for neighbour in graph[node]:
+            dfs(visited, graph, neighbour)
+
+dfs(visitedDFS, graph, "A")
